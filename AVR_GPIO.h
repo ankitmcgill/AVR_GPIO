@@ -5,6 +5,9 @@
 //
 // ANKIT BHATNAGAR
 // ANKIT.BHATNAGARINDIA@GMAIL.COM
+//
+// REFERENCE:
+// http://www.avrfreaks.net/forum/macros-ddr-and-port-pin-name
 //////////////////////////////////////////////
 
 #ifndef _AVR_GPIO_H_
