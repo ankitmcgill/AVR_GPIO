@@ -13,26 +13,35 @@
 #include <stdio.h>
 #include <avr/io.h>
 
-#define AVR_GPIO_PIN_DIR_INPUT 	0
-#define AVR_GPIO_PIN_DIR_OUTPUT 1
+/* INTERNAL FUNCTIONS / DEFINES */
 
-#define AVR_GPIO_PIN_VAL_HIGH 	1
-#define AVR_GPIO_PIN_VAL_LOW 	0
+#define BIT(p,b)							(b)
 
-#define AVR_GPIO_PORTB_DIR_REGISTER DDRB
-#define AVR_GPIO_PORTC_DIR_REGISTER DDRC
-#define AVR_GPIO_PORTD_DIR_REGISTER DDRD
+#define PORT(p,b)							(PORT ## p)
+#define PIN(p,b)							(PIN ## p)
+#define DDR(p,b)							(DDR ## p)
 
-#define AVR_GPIO_PORTB_VAL_REGISTER PORTB
-#define AVR_GPIO_PORTC_VAL_REGISTER PORTC
-#define AVR_GPIO_PORTD_VAL_REGISTER PORTD
+#define SET_PORT_BIT(p,b)					((p) |= (1 << b))
+#define CLEAR_PORT_BIT(p,b)					((p) &= ~(1 << b))
+#define TOGGLE_PORT_BIT(p,b)				((p) ^= (1 << b))
 
-#define AVR_GPIO_PORTB_PIN_REGISTER PINB
-#define AVR_GPIO_PORTC_PIN_REGISTER PINC
-#define AVR_GPIO_PORTD_PIN_REGISTER PIND
+#define GET_PORT_BIT(p,b)					(((p) & (1 << b)) != 0)
 
-void AVR_GPIO_pin_set_direction(uint8_t pin, uint8_t direction_register, uint8_t dir);
-void AVR_GPIO_pin_set_value(uint8_t pin, uint8_t value_register, uint8_t val);
-void AVR_GPIO_pin_toggle_value(uint8_t pin, uint8_t pin_register);
+/* USER CALLABLE FUNCTIONS / DEFINES */
+
+#define AVR_GPIO_BIT(io)					BIT(io)
+#define AVR_GPIO_PORT(io)					PORT(io)
+
+#define AVR_GPIO_PIN_HIGH(io)				SET_PORT_BIT(PORT(io),BIT(io))
+#define AVR_GPIO_PIN_LOW(io)				CLEAR_PORT_BIT(PORT(io),BIT(io))
+#define AVR_GPIO_PIN_TOGGLE(io)				TOGGLE_PORT_BIT(PORT(io),BIT(io))
+
+#define AVR_GPIO_PIN_GET_OUTPUT(io)			GET_PORT_BIT(PORT(io),BIT(io))
+#define AVR_GPIO_PIN_GET_INPUT(io)			GET_PORT_BIT(PIN(io),BIT(io))
+
+#define AVR_GPIO_PIN_SET_DIRECTION_IN(io)		CLEAR_PORT_BIT(DDR(io),BIT(io))
+#define AVR_GPIO_PIN_SET_DIRECTION_OUT(io)		SET_PORT_BIT(DDR(io),BIT(io))
+#define AVR_GPIO_PIN_SET_DIRECTION_TOGGLE(io)	TOGGLE_PORT_BIT(DDR(io),BIT(io))
+
 
 #endif
