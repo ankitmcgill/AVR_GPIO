@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 /* INTERNAL FUNCTIONS / DEFINES */
 
@@ -30,7 +31,14 @@
 
 #define GET_PORT_BIT(p,b)					(((p) & (1 << b)) != 0)
 
-/* USER CALLABLE FUNCTIONS / DEFINES */
+/* USER CALLABLE DEFINES */
+#define AVR_GPIO_EXTERNAL_INT_0	0
+#define AVR_GPIO_EXTERNAL_INT_1	2
+
+#define AVR_GPIO_EXTERNAL_INT_LOW_LEVEL		0
+#define AVR_GPIO_EXTERNAL_INT_LOGIC_CHANGE	1
+#define AVR_GPIO_EXTERNAL_INT_FALLING_EDGE	2
+#define AVR_GPIO_EXTERNAL_INT_RISING_EDGE	3
 
 #define AVR_GPIO_BIT(io)					BIT(io)
 #define AVR_GPIO_PORT(io)					PORT(io)
@@ -46,5 +54,8 @@
 #define AVR_GPIO_PIN_SET_DIRECTION_OUT(io)		SET_PORT_BIT(DDR(io),BIT(io))
 #define AVR_GPIO_PIN_SET_DIRECTION_TOGGLE(io)	TOGGLE_PORT_BIT(DDR(io),BIT(io))
 
+/* USER CALLABLE DEFINES*/
+void AVR_GPIO_External_Interrupt_Enable(uint8_t int_num, uint8_t int_trig_type);
+void AVR_GPIO_External_Interrupt_Disable(uint8_t int_num);
 
 #endif
